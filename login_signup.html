@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XML Antivirus - Login</title>
+  <link rel="stylesheet" href="ls.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>XML ANTIVIRUS</h1>
+
+  <div class="box">
+    <h2>Login</h2>
+
+    <input type="text" placeholder="Username">
+    <input type="password" placeholder="Password">
+
+    <button onclick="login()">Login</button>
+
+    <p>Don't have an account?
+      <a href="#" onclick="showSignup()">Sign Up</a>
+    </p>
+  </div>
+
+  <div class="box" id="signupBox" style="display:none;">
+    <h2>Sign Up</h2>
+
+    <input type="text" placeholder="Username">
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+
+    <button onclick="signup()">Create Account</button>
+
+    <p>Already have an account?
+      <a href="#" onclick="showLogin()">Login</a>
+    </p>
+  </div>
+
+</div>
+
+<script>
+function login() {
+    window.location.href = "dashboard.html";
+}
+
+function signup() {
+    window.location.href = "dashboard.html";
+}
+
+function showSignup() {
+    document.querySelector(".box").style.display = "none";
+    document.getElementById("signupBox").style.display = "block";
+}
+
+function showLogin() {
+    document.querySelector(".box").style.display = "block";
+    document.getElementById("signupBox").style.display = "none";
+}
+</script>
+
+</body>
+</html>
