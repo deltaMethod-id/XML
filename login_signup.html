@@ -13,9 +13,10 @@
 
   <div class="box" id="loginBox">
     <h2>Login</h2>
-
-    <input type="text" placeholder="Username">
-    <input type="password" placeholder="Password">
+    
+    <!-- Tambahkan ID agar mudah diambil nilainya di JavaScript -->
+    <input type="text" id="loginUser" placeholder="Username">
+    <input type="password" id="loginPass" placeholder="Password">
 
     <button onclick="login()">Login</button>
 
@@ -26,10 +27,11 @@
 
   <div class="box" id="signupBox" style="display:none;">
     <h2>Sign Up</h2>
-
-    <input type="text" placeholder="Username">
-    <input type="email" placeholder="Email">
-    <input type="password" placeholder="Password">
+    
+    <!-- Tambahkan ID -->
+    <input type="text" id="signupUser" placeholder="Username">
+    <input type="email" id="signupEmail" placeholder="Email">
+    <input type="password" id="signupPass" placeholder="Password">
 
     <button onclick="signup()">Create Account</button>
 
@@ -41,12 +43,82 @@
 </div>
 
 <script>
+// Fungsi untuk inisialisasi (auto-create) database berbentuk JSON
+function initDB() {
+    // Mengecek apakah 'userdb.json' sudah ada di penyimpanan browser
+    if (!localStorage.getItem("userdb.json")) {
+        // Jika belum ada, buat struktur database kosong
+        const initialDB = { users: [] };
+        localStorage.setItem("userdb.json", JSON.stringify(initialDB));
+    }
+}
+
+// Jalankan otomatis saat halaman dimuat
+initDB();
+
 function login() {
-    window.location.href = "dashboard.html";
+    // Ambil nilai dari input dan hapus spasi berlebih menggunakan .trim()
+    const user = document.getElementById("loginUser").value.trim();
+    const pass = document.getElementById("loginPass").value.trim();
+
+    // Validasi input tidak boleh kosong
+    if (user === "" || pass === "") {
+        alert("Username dan Password tidak boleh kosong!");
+        return; // Hentikan proses jika kosong
+    }
+
+    // Ambil data dari database (LocalStorage)
+    const db = JSON.parse(localStorage.getItem("userdb.json"));
+    
+    // Cari apakah ada user dengan username dan password yang cocok
+    const foundUser = db.users.find(u => u.username === user && u.password === pass);
+
+    if (foundUser) {
+        alert("Login berhasil!");
+        window.location.href = "dashboard.html";
+    } else {
+        alert("Username atau Password salah!");
+    }
 }
 
 function signup() {
-    window.location.href = "dashboard.html";
+    const user = document.getElementById("signupUser").value.trim();
+    const email = document.getElementById("signupEmail").value.trim();
+    const pass = document.getElementById("signupPass").value.trim();
+
+    // Validasi input tidak boleh kosong
+    if (user === "" || email === "" || pass === "") {
+        alert("Semua kolom (Username, Email, Password) harus diisi!");
+        return; // Hentikan proses jika kosong
+    }
+
+    // Ambil data database saat ini
+    const db = JSON.parse(localStorage.getItem("userdb.json"));
+
+    // Cek apakah username sudah terdaftar
+    const userExists = db.users.some(u => u.username === user);
+    if (userExists) {
+        alert("Username sudah terdaftar! Silakan gunakan username lain.");
+        return;
+    }
+
+    // Tambahkan data user baru ke dalam array users
+    db.users.push({
+        username: user,
+        email: email,
+        password: pass
+    });
+
+    // Simpan kembali data yang sudah diperbarui ke database
+    localStorage.setItem("userdb.json", JSON.stringify(db));
+
+    alert("Akun berhasil dibuat! Silakan login.");
+    
+    // Kosongkan form signup dan pindahkan tampilan ke halaman login
+    document.getElementById("signupUser").value = "";
+    document.getElementById("signupEmail").value = "";
+    document.getElementById("signupPass").value = "";
+    showLogin();
 }
 
 function showSignup() {
