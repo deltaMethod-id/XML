@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XM Anti-Virus - Scanner</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(to right,#000000,#00aa33);
+}
+
+.container{
+    text-align:center;
+}
+
+.scanner{
+    width:170px;
+    height:170px;
+    border-radius:50%;
+    border:10px solid rgba(255,255,255,.2);
+    border-top:10px solid #00ff88;
+    margin:auto;
+    margin-bottom:25px;
+    transition:.3s;
+}
+
+.spin{
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+#status{
+    color:white;
+    font-size:22px;
+    margin-bottom:20px;
+}
+
+button{
+    padding:14px 35px;
+    border:none;
+    border-radius:10px;
+    background:#00ff88;
+    color:black;
+    font-size:18px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+#result{
+    color:white;
+    margin-top:20px;
+    font-size:18px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div id="circle" class="scanner"></div>
+
+<div id="status">Ready</div>
+
+<button onclick="scanVirus()">Scan Virus</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+const hasil = [
+"✅ No Threats Found",
+"⚠️ Adware Detected",
+"⚠️ Trojan Detected",
+"⚠️ Spyware Detected",
+"⚠️ Worm Detected",
+"⚠️ Ransomware Detected",
+"⚠️ Rootkit Detected",
+"⚠️ Suspicious File Found",
+"⚠️ Potential Risk Detected",
+"⚠️ Malware Signature Found"
+];
+
+function scanVirus(){
+
+const circle=document.getElementById("circle");
+const status=document.getElementById("status");
+const result=document.getElementById("result");
+
+circle.classList.add("spin");
+status.innerHTML="Scanning...";
+result.innerHTML="";
+
+setTimeout(()=>{
+
+circle.classList.remove("spin");
+
+let random=hasil[Math.floor(Math.random()*hasil.length)];
+
+status.innerHTML="Scan Complete";
+result.innerHTML=random;
+
+},3000);
+
+}
+
+</script>
+
+</body>
+</html>
